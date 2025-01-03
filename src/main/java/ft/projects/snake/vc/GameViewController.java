@@ -60,7 +60,10 @@ public class GameViewController {
                 drawSnake();
                 drawApple();
                 if(!isPaused) {
+                    checkApple();
                     moveSnake();
+                    checkHitBorder();
+                    checkHitSelf();
                 }
                 try {
                     Thread.sleep(DELAY);
@@ -69,6 +72,36 @@ public class GameViewController {
                 }
             }
         }).start();
+    }
+
+    private void checkApple() {
+        var snakeHead = snake.get(0);
+        if(snakeHead.getX() == apple.getX() && snakeHead.getY() == apple.getY()) {
+            snake.add(new Block(-1, -1));
+            initApple();
+            scoreText.setText(++score + "");
+        }
+    }
+
+    private void checkHitBorder() {
+        var snakeHead = snake.get(0);
+        if(snakeHead.getX() >= GAME_WIDTH || snakeHead.getX() < 0 || snakeHead.getY() >= GAME_HEIGHT || snakeHead.getY() < 0)  {
+            isGameOver = true;
+        }
+    }
+
+    private void checkHitSelf() {
+        for(int i = 0; i<snake.size(); i++) {
+            for(int j = 0; j<snake.size(); j++) {
+                if(i == j) continue;
+                var seg1 = snake.get(i);
+                var seg2 = snake.get(j);
+                if(seg1.getX() == seg2.getX() && seg1.getY() == seg2.getY()) {
+                    isGameOver = true;
+                    return;
+                }
+            }
+        }
     }
 
     private void moveSnake() {
@@ -138,20 +171,28 @@ public class GameViewController {
             final int code = keyEvent.getCode().getCode();
             switch(code) {
                 case A -> {
-                    currentDirection = Direction.LEFT;
-                    isPaused = false;
+                    if(currentDirection != Direction.RIGHT) {
+                        currentDirection = Direction.LEFT;
+                        isPaused = false;
+                    }
                 }
                 case S -> {
-                    currentDirection = Direction.DOWN;
-                    isPaused = false;
+                    if(currentDirection != Direction.UP) {
+                        currentDirection = Direction.DOWN;
+                        isPaused = false;
+                    }
                 }
                 case W -> {
-                    currentDirection = Direction.UP;
-                    isPaused = false;
+                    if(currentDirection != Direction.DOWN) {
+                        currentDirection = Direction.UP;
+                        isPaused = false;
+                    }
                 }
                 case D -> {
-                    currentDirection = Direction.RIGHT;
-                    isPaused = false;
+                    if(currentDirection != Direction.LEFT) {
+                        currentDirection = Direction.RIGHT;
+                        isPaused = false;
+                    }
                 }
             }
         }
