@@ -7,8 +7,8 @@ public interface Constants {
     int WINDOW_HEIGHT = 800;
     int GAME_WIDTH = 600;
     int GAME_HEIGHT = 600;
-    int BLOCK_WIDTH = 20;
-    int BLOCK_HEIGHT = 20;
+    int BLOCK_WIDTH = 40;
+    int BLOCK_HEIGHT = 40;
     float SNAKE_HORIZONTAL_SPEED = BLOCK_WIDTH;
     float SNAKE_VERTICAL_SPEED = BLOCK_HEIGHT;
     int W = 87;
@@ -16,5 +16,5 @@ public interface Constants {
     int S = 83;
     int D = 68;
     int ESC = 27;
-    long DELAY = 100;
+    long DELAY = 125;
 }
